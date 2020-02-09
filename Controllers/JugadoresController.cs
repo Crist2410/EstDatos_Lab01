@@ -4,11 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using EstDatos_Lab01.Models;
+using Libreria_Generics.Estruturas;
 
 namespace EstDatos_Lab01.Controllers
 {
     public class JugadoresController : Controller
     {
+        ListaG<Jugadores> ListaGenJugadores = new ListaG<Jugadores>();
+
         //
         public ActionResult MostrarTabla()
         {
@@ -29,7 +33,22 @@ namespace EstDatos_Lab01.Controllers
         {
             return View();
         }
+        //Agregar jugadoes 
+        [HttpPost]
+        public IActionResult Create(IFormCollection collection)
+        {
+            Jugadores jugadores = new Jugadores();
 
+            jugadores.Nombre = collection["Nombre"];
+            jugadores.Apellido = collection["Apellido"];
+            jugadores.Salario = int.Parse(collection["Salario"]);
+            jugadores.Posicion = collection["Posicion"];
+            jugadores.Club = collection["Club"];
+
+            ListaGenJugadores.Add(jugadores);
+            ViewBag.Usuarios = ListaGenJugadores;
+            return View("MostrarJugadores");
+        }
         // GET: Jugadores/Details/5
         public ActionResult Details(int id)
         {
@@ -42,22 +61,7 @@ namespace EstDatos_Lab01.Controllers
             return View();
         }
 
-        // POST: Jugadores/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
 
         // GET: Jugadores/Edit/5
         public ActionResult Edit(int id)

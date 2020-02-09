@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EstDatos_Lab01", "EstDatos_Lab01.csproj", "{6D3F48BE-8F4D-4923-B6B7-C7CB387415DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EstDatos_Lab01", "EstDatos_Lab01.csproj", "{6D3F48BE-8F4D-4923-B6B7-C7CB387415DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libreria Generics", "Libreria Generics\Libreria Generics.csproj", "{882AE546-9DA0-4A28-826E-184F56DEAA74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{6D3F48BE-8F4D-4923-B6B7-C7CB387415DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D3F48BE-8F4D-4923-B6B7-C7CB387415DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D3F48BE-8F4D-4923-B6B7-C7CB387415DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{882AE546-9DA0-4A28-826E-184F56DEAA74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{882AE546-9DA0-4A28-826E-184F56DEAA74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{882AE546-9DA0-4A28-826E-184F56DEAA74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{882AE546-9DA0-4A28-826E-184F56DEAA74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
