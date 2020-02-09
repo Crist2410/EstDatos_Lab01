@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EstDatos_Lab01.Models
 {
-    public class Jugadores
+    public class JugadoresModel
     {
         public string Nombre { get; set; }
         public string Apellido { get; set; }
@@ -13,7 +13,7 @@ namespace EstDatos_Lab01.Models
         public string Club { get; set; }
         public string Posicion { get; set; }
 
-        public Jugadores()
+        public JugadoresModel()
         {
 
         }

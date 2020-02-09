@@ -9,14 +9,30 @@ using Libreria_Generics.Estruturas;
 
 namespace EstDatos_Lab01.Controllers
 {
+
+
     public class JugadoresController : Controller
     {
-       public static ListaG<Jugadores> ListaGenJugadores = new ListaG<Jugadores>();
+       public static ListaG<JugadoresModel> ListaGenJugadores = new ListaG<JugadoresModel>();
+       public static List<JugadoresModel> ListaJugadores = new List<JugadoresModel>();
 
-        //
-        public ActionResult MostrarTabla()
+        public ActionResult MostrarListaJugadores() 
         {
-            ViewBag.Jugadores = ListaGenJugadores;
+            ViewBag.Jugadores = ListaJugadores;
+            return View("MostrarJugadores");
+        }
+        public ActionResult MostrarTabla(IFormCollection collection)
+        {
+            JugadoresModel NuevoJugador = new JugadoresModel();
+
+            NuevoJugador.Nombre = collection["Nombre"];
+            NuevoJugador.Apellido = collection["Apellido"];
+            NuevoJugador.Salario = int.Parse(collection["Salario"]);
+            NuevoJugador.Club = collection["Club"];
+            NuevoJugador.Posicion = collection["Posicion"];
+
+            ListaJugadores.Add(NuevoJugador);
+            ViewBag.Jugadores = ListaJugadores;
             return View("MostrarJugadores");
         }
         // GET: Agregar Jugadores
@@ -38,7 +54,7 @@ namespace EstDatos_Lab01.Controllers
         [HttpPost]
         public IActionResult CreateJugador(IFormCollection collection)
         {
-            Jugadores jugadores = new Jugadores();
+            JugadoresModel jugadores = new JugadoresModel();
 
             jugadores.Nombre = collection["Nombre"];
             jugadores.Apellido = collection["Apellido"];

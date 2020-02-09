@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EstDatos_Lab01", "EstDatos_Lab01.csproj", "{6D3F48BE-8F4D-4923-B6B7-C7CB387415DB}"
+<<<<<<< HEAD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libreria Generics", "Libreria Generics\Libreria Generics.csproj", "{882AE546-9DA0-4A28-826E-184F56DEAA74}"
+=======
+>>>>>>> a9b51af57b70db048027dc7e567f39a658d8af6f
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
