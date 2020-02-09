@@ -7,7 +7,7 @@ using Libreria_Generics.Estruturas;
 
 namespace Libreria_Generics.Estruturas
 {
-    public class ListaG<T> : EstruturaBase<T>
+    public class ListaG<T> : EstruturaBase<T>, IEnumerable<T>
     {
         private Nodo<T> Inicio { get; set; }
         private Nodo<T> Fin { get; set; }
@@ -51,6 +51,20 @@ namespace Libreria_Generics.Estruturas
             }
         }
 
-       
+        public IEnumerator<T> GetEnumerator()
+        {
+            Nodo<T> NodoAuxiliar = Inicio;
+
+            while (NodoAuxiliar != null)
+            {
+                yield return NodoAuxiliar.Valor;
+                NodoAuxiliar = NodoAuxiliar.Siguiente;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }
