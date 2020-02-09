@@ -11,6 +11,13 @@
 using System;
 using System.Reflection;
 
+[assembly: System.Reflection.AssemblyCompanyAttribute("Libreria Generics")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyProductAttribute("Libreria Generics")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Libreria Generics")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Generado por la clase WriteCodeFragment de MSBuild.
 

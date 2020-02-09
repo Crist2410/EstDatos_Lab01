@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EstDatos_Lab01.Models;
+using Libreria_Generics.Estruturas;
 
 namespace EstDatos_Lab01.Controllers
 {
@@ -12,9 +13,9 @@ namespace EstDatos_Lab01.Controllers
 
     public class JugadoresController : Controller
     {
+       public static ListaG<JugadoresModel> ListaGenJugadores = new ListaG<JugadoresModel>();
+       public static List<JugadoresModel> ListaJugadores = new List<JugadoresModel>();
 
-        public static List<JugadoresModel> ListaJugadores = new List<JugadoresModel>();
-        //
         public ActionResult MostrarListaJugadores() 
         {
             ViewBag.Jugadores = ListaJugadores;
@@ -32,7 +33,6 @@ namespace EstDatos_Lab01.Controllers
 
             ListaJugadores.Add(NuevoJugador);
             ViewBag.Jugadores = ListaJugadores;
-
             return View("MostrarJugadores");
         }
         // GET: Agregar Jugadores
@@ -50,7 +50,22 @@ namespace EstDatos_Lab01.Controllers
         {
             return View();
         }
+        //Agregar jugadoes 
+        [HttpPost]
+        public IActionResult CreateJugador(IFormCollection collection)
+        {
+            JugadoresModel jugadores = new JugadoresModel();
 
+            jugadores.Nombre = collection["Nombre"];
+            jugadores.Apellido = collection["Apellido"];
+            jugadores.Salario = int.Parse(collection["Salario"]);
+            jugadores.Posicion = collection["Posicion"];
+            jugadores.Club = collection["Club"];
+
+            ListaGenJugadores.Add(jugadores);
+            ViewBag.Jugadores = ListaGenJugadores;
+            return View("MostrarJugadores");
+        }
         // GET: Jugadores/Details/5
         public ActionResult Details(int id)
         {
@@ -63,22 +78,7 @@ namespace EstDatos_Lab01.Controllers
             return View();
         }
 
-        // POST: Jugadores/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
 
         // GET: Jugadores/Edit/5
         public ActionResult Edit(int id)
