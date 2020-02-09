@@ -1,4 +1,4 @@
-﻿@model EstDatos_Lab01.Models.Jugadores
+﻿@model EstDatos_Lab01.Models.JugadoresModel
 
 @{
     ViewData["Title"] = "AgregarJugadoresCS";
@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AgregarJugadoresCS">
+        <form asp-action="MostrarTabla">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
@@ -46,7 +46,7 @@
 
 </p>
 <div>
-    <a asp-action="MostrarTabla" class="btn btn-dark btn-lg" style="position: absolute;top: 20%; left: 70%" role="button">Mostrar Jugadores</a>
+    <a asp-action="MostrarListaJugadores" class="btn btn-dark btn-lg" style="position: absolute;top: 20%; left: 70%" role="button">Mostrar Jugadores</a>
 </div>
 
 @section Scripts {

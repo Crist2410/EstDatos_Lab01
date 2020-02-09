@@ -4,14 +4,35 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using EstDatos_Lab01.Models;
 
 namespace EstDatos_Lab01.Controllers
 {
+
+
     public class JugadoresController : Controller
     {
+
+        public static List<JugadoresModel> ListaJugadores = new List<JugadoresModel>();
         //
-        public ActionResult MostrarTabla()
+        public ActionResult MostrarListaJugadores() 
         {
+            ViewBag.Jugadores = ListaJugadores;
+            return View("MostrarJugadores");
+        }
+        public ActionResult MostrarTabla(IFormCollection collection)
+        {
+            JugadoresModel NuevoJugador = new JugadoresModel();
+
+            NuevoJugador.Nombre = collection["Nombre"];
+            NuevoJugador.Apellido = collection["Apellido"];
+            NuevoJugador.Salario = int.Parse(collection["Salario"]);
+            NuevoJugador.Club = collection["Club"];
+            NuevoJugador.Posicion = collection["Posicion"];
+
+            ListaJugadores.Add(NuevoJugador);
+            ViewBag.Jugadores = ListaJugadores;
+
             return View("MostrarJugadores");
         }
         // GET: Agregar Jugadores
