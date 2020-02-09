@@ -11,9 +11,25 @@ namespace Libreria_Generics.Estruturas
     {
         private Nodo<T> Inicio { get; set; }
         private Nodo<T> Fin { get; set; }
+
+        public int ContadorID = 1;
         public void Add(T value)
         {
             Insertar(value);
+        }
+        public T FindID(T value)
+        {
+            Nodo<T> AuxNodo = new Nodo<T>();
+            Nodo<T> NodoPivote = Inicio;
+            AuxNodo.Valor = value;
+
+            while (AuxNodo.Valor.ToString() != NodoPivote.Valor.ToString())
+            {
+                
+                AuxNodo = AuxNodo.Siguiente;
+                
+            }
+            return AuxNodo.Valor;
         }
 
         protected override T Obtener()
@@ -32,7 +48,6 @@ namespace Libreria_Generics.Estruturas
             Nodo<T> NuevoNodo = new Nodo<T>();
 
             NuevoNodo.Valor = value;
-
             if (Inicio == null)
             {
                 Inicio = NuevoNodo;
@@ -40,6 +55,7 @@ namespace Libreria_Generics.Estruturas
 
                 NuevoNodo.Anterior = null;
                 NuevoNodo.Siguiente = null;
+               
             }
             else
             {

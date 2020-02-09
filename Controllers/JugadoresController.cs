@@ -15,6 +15,7 @@ namespace EstDatos_Lab01.Controllers
     {
        public static ListaG<JugadoresModel> ListaGenJugadores = new ListaG<JugadoresModel>();
        public static List<JugadoresModel> ListaJugadores = new List<JugadoresModel>();
+        
 
         public ActionResult MostrarListaJugadores() 
         {
@@ -61,6 +62,7 @@ namespace EstDatos_Lab01.Controllers
             jugadores.Salario = int.Parse(collection["Salario"]);
             jugadores.Posicion = collection["Posicion"];
             jugadores.Club = collection["Club"];
+            
 
             ListaGenJugadores.Add(jugadores);
             ViewBag.Jugadores = ListaGenJugadores;
@@ -104,9 +106,11 @@ namespace EstDatos_Lab01.Controllers
         }
 
         // GET: Jugadores/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(JugadoresModel Jugador)
         {
-            return View();
+            
+            ViewBag.model = ListaGenJugadores.FindID(Jugador); 
+            return View("EliminarJugadores");
         }
 
         // POST: Jugadores/Delete/5

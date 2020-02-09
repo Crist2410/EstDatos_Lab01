@@ -54,9 +54,9 @@
                     @Html.DisplayFor(modelItem => item.Posicion)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <a asp-action="Edit" class="btn btn-dark " role="button">Editar</a>
+                    @Html.ActionLink("Delete", "Delete", item)
+                    <a asp-action="Delete" class="btn btn-dark " role="button">Eliminar</a>
                 </td>
             </tr>
         }
