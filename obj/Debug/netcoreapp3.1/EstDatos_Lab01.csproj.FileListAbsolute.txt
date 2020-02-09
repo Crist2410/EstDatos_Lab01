@@ -118,3 +118,5 @@ C:\Users\Crist\Desktop\EstDatos_Lab01\obj\Debug\netcoreapp3.1\Razor\Views\Jugado
 C:\Users\Crist\Desktop\EstDatos_Lab01\obj\Debug\netcoreapp3.1\Razor\Views\Jugadores\ImportacionJugadoresCS.cshtml.g.cs
 C:\Users\Crist\Desktop\EstDatos_Lab01\obj\Debug\netcoreapp3.1\Razor\Views\Jugadores\AgregarJugadoresCS.cshtml.g.cs
 C:\Users\Crist\Desktop\EstDatos_Lab01\obj\Debug\netcoreapp3.1\Razor\Views\Jugadores\MostrarJugadores.cshtml.g.cs
+C:\Users\Crist\Desktop\EstDatos_Lab01\bin\Debug\netcoreapp3.1\Libreria Generics\obj\Libreria Generics.csproj.nuget.dgspec.json
+C:\Users\Crist\Desktop\EstDatos_Lab01\bin\Debug\netcoreapp3.1\Libreria Generics\obj\project.assets.json

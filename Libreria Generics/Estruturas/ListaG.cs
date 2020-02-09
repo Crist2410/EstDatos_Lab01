@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Libreria_Generics;
@@ -14,6 +15,13 @@ namespace Libreria_Generics.Estruturas
         {
             Insertar(value);
         }
+
+        protected override T Obtener()
+        {
+            throw new NotImplementedException();
+        }
+    
+
         protected override void Borrar()
         {
             throw new NotImplementedException();
@@ -43,9 +51,6 @@ namespace Libreria_Generics.Estruturas
             }
         }
 
-        protected override T Obtener()
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

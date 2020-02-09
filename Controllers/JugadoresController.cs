@@ -11,11 +11,13 @@ namespace EstDatos_Lab01.Controllers
 {
     public class JugadoresController : Controller
     {
-        ListaG<Jugadores> ListaGenJugadores = new ListaG<Jugadores>();
+       public static ListaG<Jugadores> ListaGenJugadores = new ListaG<Jugadores>();
+       public static List<Jugadores> L_Jugadores = new List<Jugadores>();
 
         //
         public ActionResult MostrarTabla()
         {
+            ViewBag.Jugadores = L_Jugadores;
             return View("MostrarJugadores");
         }
         // GET: Agregar Jugadores
@@ -35,7 +37,7 @@ namespace EstDatos_Lab01.Controllers
         }
         //Agregar jugadoes 
         [HttpPost]
-        public IActionResult Create(IFormCollection collection)
+        public IActionResult CreateJugador(IFormCollection collection)
         {
             Jugadores jugadores = new Jugadores();
 
@@ -46,7 +48,8 @@ namespace EstDatos_Lab01.Controllers
             jugadores.Club = collection["Club"];
 
             ListaGenJugadores.Add(jugadores);
-            ViewBag.Usuarios = ListaGenJugadores;
+            L_Jugadores.Add(jugadores);
+            ViewBag.Jugadores = L_Jugadores;
             return View("MostrarJugadores");
         }
         // GET: Jugadores/Details/5

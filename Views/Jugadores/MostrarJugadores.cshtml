@@ -30,8 +30,8 @@
             <th></th>
         </tr>
     </thead>
-    @*<tbody>
-@foreach (var item in Model) {
+    <tbody>
+@foreach (Jugadores item in ViewBag.Jugadores) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
@@ -55,5 +55,5 @@
             </td>
         </tr>
 }
-    </tbody>*@
+    </tbody>
 </table>
