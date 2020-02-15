@@ -12,7 +12,6 @@ namespace Libreria_Generics.Estruturas
         private Nodo<T> Inicio { get; set; }
         private Nodo<T> Fin { get; set; }
 
-        public int ContadorID = 1;
         public void Add(T value)
         {
             Insertar(value);

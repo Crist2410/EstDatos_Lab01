@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "ImportacionCSV";
+}
+
+<div class="text-center">
+    <h1>Importacion CSV</h1>
+    <h2>
+        Liga MLS
+
+    </h2>
+</div>
+<h5>
+
+    Ingrese la direccion del Archivo:
+
+</h5>
+<form asp-action="ImportarCSV">
+    <input type="text" name="ArchivoCargado" class="form-control" placeholder="Dirreccion Del Archivo"/>
+    <div class="form-control">
+        <input type="submit" value="Importar" class="btn btn-dark btn-lg" />
+    </div>
+</form>
+
+
+
