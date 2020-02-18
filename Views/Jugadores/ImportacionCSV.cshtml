@@ -1,4 +1,4 @@
-﻿
+﻿@model EstDatos_Lab01.Models.JugadoresModel
 @{
     ViewData["Title"] = "ImportacionCSV";
 }
@@ -15,12 +15,27 @@
     Ingrese la direccion del Archivo:
 
 </h5>
-<form asp-action="ImportarCSV">
-    <input type="text" name="ArchivoCargado" class="form-control" placeholder="Dirreccion Del Archivo"/>
+@*<form asp-action="ImportarCSV">
+    <input type="file" name="ArchivoCargado" class="form-control" />
     <div class="form-control">
         <input type="submit" value="Importar" class="btn btn-dark btn-lg" />
     </div>
+</form>*@
+@*@using (Html.BeginForm("ImportarCSV", "JugadoresController", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="ArchivoCargado" class="form-control-file" />
+        <input type="submit" value="Importar" class="btn btn-dark btn-lg" />
+    }*@
+
+@*<form asp-action="ImportarCSV">
+    <input type="file" name="ArchivoCargado" class="form-control-file" />
+    <input type="submit" value="Importar" class="btn btn-dark btn-lg" />
+</form>*@
+
+<form  method="post" enctype="multipart/form-data" asp-controller="Jugadores" asp-action="ImportarCSV">
+   
+    <input type="file" class="form-control-file" name="ArchivoCargado"  />
+    <br />
+    <input type="submit"  value="Agregar" class="form-control-file"  />
+
 </form>
-
-
-

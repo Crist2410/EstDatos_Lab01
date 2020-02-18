@@ -54,9 +54,8 @@
                     @Html.DisplayFor(modelItem => item.Posicion)
                 </td>
                 <td>
-                    <a asp-action="Edit" class="btn btn-dark " role="button">Editar</a>
-                    @Html.ActionLink("Delete", "Delete", item)
-                    <a asp-action="Delete" class="btn btn-dark " role="button">Eliminar</a>
+                    @Html.ActionLink("Edit", "Edit", new { id=item }) |
+                    @Html.ActionLink("Delete", "Delete", new {id=item.Id})
                 </td>
             </tr>
         }

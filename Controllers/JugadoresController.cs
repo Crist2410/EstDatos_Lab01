@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EstDatos_Lab01.Models;
 using Libreria_Generics.Estruturas;
+using System.Web;
 using System.IO;
 using System.Diagnostics;
 
@@ -43,7 +44,7 @@ namespace EstDatos_Lab01.Controllers
             NuevoJugador.Salario = int.Parse(collection["Salario"]);
             NuevoJugador.Club = collection["Club"];
             NuevoJugador.Posicion = collection["Posicion"];
-            NuevoJugador.id = IdJugadores;
+            NuevoJugador.Id = IdJugadores;
             IdJugadores++;
             //Utilizando Listas de C# 
             if (MetodoSeleccionado)
@@ -72,51 +73,64 @@ namespace EstDatos_Lab01.Controllers
             }
             return View();
         }
-
-       [HttpPost]
+        
         //Vista de Importacion CSV
-        public ActionResult ImportarCSV(string ArchivoCargado)
+       [HttpPost]
+        public IActionResult ImportarCSV(IFormFile ArchivoCargado)
         {
-            try
-            {
-                string Dirreccion = @""+ ArchivoCargado;
-                string Texto = System.IO.File.ReadAllText(Dirreccion);
-                foreach (string Fila in Texto.Split("\n"))
+            //try
+            //{
+                using (var stream = new StreamReader(ArchivoCargado.OpenReadStream()))
                 {
-                    JugadoresModel Jugador = new JugadoresModel();
-                    if (!string.IsNullOrEmpty(Fila))
-                    {
-                        Jugador.Nombre = Fila.Split(";")[0];
-                        Jugador.Apellido = Fila.Split(";")[1];
-                        Jugador.Salario = Convert.ToInt32(Fila.Split(";")[2]);
-                        Jugador.Club = Fila.Split(";")[3];
-                        Jugador.Posicion = Fila.Split(";")[4];
-                        Jugador.id = IdJugadores;
-                        IdJugadores++;
-                        if (MetodoSeleccionado)
-                        {
-                            ListaJugadores.Add(Jugador);
-                            ViewBag.Jugadores = ListaJugadores;
-                        }
-                        //Utilizando Listas Genericas
-                        else
-                        {
-                            ListaGenJugadores.Add(Jugador);
-                            ViewBag.Jugadores = ListaGenJugadores;
-                        }
-                    }
+                    string Texto = stream.ReadToEnd().Remove(0,71);
 
+
+                    foreach (string Fila in Texto.Split("\n"))
+                    {
+                        JugadoresModel Jugador = new JugadoresModel();
+                        if (!string.IsNullOrEmpty(Fila))
+                        {
+                            
+                            Jugador.Nombre = Fila.Split(",")[2];
+                            Jugador.Apellido = Fila.Split(",")[1];
+                        try
+                        {
+                            Jugador.Salario = Convert.ToDouble(Fila.Split(",")[4]);
+                        }
+                        catch (Exception)
+                        {
+                            Jugador.Salario = 00.00;
+                        }
+                            
+                            Jugador.Club = Fila.Split(",")[0];
+                            Jugador.Posicion = Fila.Split(",")[3];
+                            Jugador.Id = IdJugadores;
+                            IdJugadores++;
+                            if (MetodoSeleccionado)
+                            {
+                                ListaJugadores.Add(Jugador);
+                                ViewBag.Jugadores = ListaJugadores;
+                            }
+                            //Utilizando Listas Genericas
+                            else
+                            {
+                                ListaGenJugadores.Add(Jugador);
+                                ViewBag.Jugadores = ListaGenJugadores;
+                            }
+                        }
+
+                    }
                 }
                 return View("MostrarJugadores");
-            }
-            catch (Exception)
-            {
+            //}
+            //catch (Exception)
+            //{
 
-                return View("ImportacionJugadoresCS");
-            }
+            //    return View("ImportacionJugadoresCS");
+            //}
 
-            
-        }
+        } 
+       
             // GET: Agregar Jugadores
             public ActionResult AgregarJugadoresCS()
         {
@@ -171,23 +185,40 @@ namespace EstDatos_Lab01.Controllers
         }
 
         // GET: Jugadores/Delete/5
-        public ActionResult Delete(JugadoresModel Jugador)
+        public ActionResult Delete(int id)
         {
-            
-            ViewBag.model = ListaGenJugadores.FindID(Jugador); 
-            return View("EliminarJugadores");
+            JugadoresModel Jugador = new JugadoresModel();
+            Jugador.Id = id;
+            if (MetodoSeleccionado)
+            {
+                
+            }
+            else
+            {
+                 Jugador = ListaGenJugadores.FindID(Jugador.BuscarId, Jugador);
+            }
+            return View("EliminarJugadores",Jugador);
         }
 
         // POST: Jugadores/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult ConfirmarBorrar(int id, IFormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                JugadoresModel Jugador = new JugadoresModel();
+                
+                if (MetodoSeleccionado)
+                {
 
-                return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    Jugador.Id = Convert.ToInt32(collection["Id"]);
+                    ListaGenJugadores.Delete(Jugador.BuscarId, Jugador);
+                }
+                ViewBag.Jugadores = ListaGenJugadores;
+                return View("MostrarJugadores");
             }
             catch
             {
