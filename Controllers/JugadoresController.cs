@@ -132,7 +132,7 @@ namespace EstDatos_Lab01.Controllers
                 ListaJugadores.RemoveAll(x => x.id == id);
                 if (true)
                 {
-                    return RedirectToAction("MostrarJugadores");
+                    return View("MostrarJugadores");
                 }
                 
             }
