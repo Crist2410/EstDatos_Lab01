@@ -181,6 +181,7 @@ namespace EstDatos_Lab01.Controllers
         {
             JugadoresModel Jugador = new JugadoresModel();
             Jugador.Id = id;
+            
             if (MetodoSeleccionado)
             {
                 Jugador = ListaJugadores.Where(x => x.id == id).FirstOrDefault();
@@ -200,8 +201,7 @@ namespace EstDatos_Lab01.Controllers
             //Utilizando Listas de C# 
             if (MetodoSeleccionado)
             {
-                ListaJugadores.RemoveAll(x => x.id == id);
-                
+                ListaJugadores.Remove(ListaJugadores.Where(x => x.id == id).FirstOrDefault());
                 ViewBag.Jugadores = ListaJugadores;
                 return View("MostrarJugadores");
             }
