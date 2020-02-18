@@ -69,7 +69,8 @@ namespace Libreria_Generics.Estruturas
         {
             Nodo<T> NodoPivote = new Nodo<T>();
             NodoPivote = Inicio.Siguiente;
-            if (Convert.ToInt32(delegado.DynamicInvoke(Inicio.Valor, Valor))== 0)
+            int x = Convert.ToInt32(delegado.DynamicInvoke(Inicio.Valor, Valor));
+            if (x == 0)
             {
                 Inicio = Inicio.Siguiente;
             }

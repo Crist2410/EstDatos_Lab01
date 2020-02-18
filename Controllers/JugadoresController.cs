@@ -52,6 +52,18 @@ namespace EstDatos_Lab01.Controllers
             }
             return View();
         }
+        public ActionResult EliminarTXT()
+        {
+            if (MetodoSeleccionado)
+            {
+                ViewBag.Jugadores = ListaJugadores;
+            }
+            else
+            {
+                ViewBag.Jugadores = ListaGenJugadores;
+            }
+            return View();
+        }
         public ActionResult BuscarJugador( string Buscar, string Texto)
         {
             if (MetodoSeleccionado)
@@ -106,16 +118,72 @@ namespace EstDatos_Lab01.Controllers
             }
             return View();
         }
-        
+
+        //Borrar Con TXT Jugadores
+        [HttpPost]
+        public IActionResult BorrarListaTXT(IFormFile ArchivoTXT)
+        {
+          List<JugadoresModel> BorrarJugadores = new List<JugadoresModel>();
+            //try
+            //{
+                using (var stream = new StreamReader(ArchivoTXT.OpenReadStream()))
+                {
+                    string Texto = stream.ReadToEnd();
+
+
+                    foreach (string Fila in Texto.Split("\r\n"))
+                    {
+                        JugadoresModel Jugador = new JugadoresModel();
+                        if (!string.IsNullOrEmpty(Fila))
+                        {
+
+                            Jugador.Nombre = Fila.Split(",")[2];
+                            Jugador.Apellido = Fila.Split(",")[1];
+                            Jugador.Club = Fila.Split(",")[0];
+                            Jugador.Id = IdJugadores;
+                            IdJugadores++;
+                            BorrarJugadores.Add(Jugador);
+                        }
+                    }
+                    if (MetodoSeleccionado)
+                    {
+                    //Aqui tenes que trabajar 
+                    //Pone tu logica aqui y solo aqui 
+                    //los jugadores a borrar ya estan cargados en la lista Borrar jugadores
+                    //No podes buscar lo jugadores por Id porque no tiene ID 
+
+                        ViewBag.Jugadores = ListaJugadores;
+                    }
+                    //Utilizando Listas Genericas
+                    else
+                    {
+                        foreach  (JugadoresModel Jugador in BorrarJugadores)
+                        {
+
+                            ListaGenJugadores.Delete(Jugador.BuscaTXT, Jugador);
+                        }
+                        ViewBag.Jugadores = ListaGenJugadores;
+                    }
+                }
+                return View("MostrarJugadores");
+            //}
+            //catch (Exception)
+            //{
+
+            //    return View("ImportacionJugadoresCS");
+            //}
+        }
+
+
         //Vista de Importacion CSV
-       [HttpPost]
+        [HttpPost]
         public IActionResult ImportarCSV(IFormFile ArchivoCargado)
         {
             try
             {
                 using (var stream = new StreamReader(ArchivoCargado.OpenReadStream()))
                 {
-                    string Texto = stream.ReadToEnd().Remove(0,71);
+                    string Texto = stream.ReadToEnd().Remove(0, 71);
 
 
                     foreach (string Fila in Texto.Split("\n"))
@@ -123,18 +191,18 @@ namespace EstDatos_Lab01.Controllers
                         JugadoresModel Jugador = new JugadoresModel();
                         if (!string.IsNullOrEmpty(Fila))
                         {
-                            
+
                             Jugador.Nombre = Fila.Split(",")[2];
                             Jugador.Apellido = Fila.Split(",")[1];
-                        try
-                        {
-                            Jugador.Salario = Convert.ToDouble(Fila.Split(",")[4]);
-                        }
-                        catch (Exception)
-                        {
-                            Jugador.Salario = 00.00;
-                        }
-                            
+                            try
+                            {
+                                Jugador.Salario = Convert.ToDouble(Fila.Split(",")[4]);
+                            }
+                            catch (Exception)
+                            {
+                                Jugador.Salario = 00.00;
+                            }
+
                             Jugador.Club = Fila.Split(",")[0];
                             Jugador.Posicion = Fila.Split(",")[3];
                             Jugador.Id = IdJugadores;
