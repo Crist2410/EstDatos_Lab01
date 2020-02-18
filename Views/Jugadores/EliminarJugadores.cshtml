@@ -4,7 +4,7 @@
     ViewData["Title"] = "EliminarJugadores";
 }
 
-<h1>EliminarJugadores</h1>
+<h1>Eliminar Jugadore</h1>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
@@ -12,39 +12,39 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
+            @Html.DisplayNameFor(Jugador => Jugador.Nombre)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
+            @Html.DisplayFor(Jugador => Jugador.Nombre)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Apellido)
+            @Html.DisplayNameFor(Jugador => Jugador.Apellido)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Apellido)
+            @Html.DisplayFor(Jugador => Jugador.Apellido)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Salario)
+            @Html.DisplayNameFor(Jugador => Jugador.Salario)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Salario)
+            @Html.DisplayFor(Jugador => Jugador.Salario)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Club)
+            @Html.DisplayNameFor(Jugador => Jugador.Club)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Club)
+            @Html.DisplayFor(Jugador => Jugador.Club)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Posicion)
+            @Html.DisplayNameFor(Jugador => Jugador.Posicion)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Posicion)
+            @Html.DisplayFor(Jugador => Jugador.Posicion)
         </dd>
     </dl>
     
     <form asp-action="EliminarJugadores">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="MostrarJugadores">Volver a la lista</a>
     </form>
 </div>

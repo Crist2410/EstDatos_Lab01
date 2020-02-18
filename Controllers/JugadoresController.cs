@@ -35,6 +35,14 @@ namespace EstDatos_Lab01.Controllers
             ViewBag.Jugadores = ListaJugadores;
             return View("MostrarJugadores");
         }
+
+        public ActionResult BorrarJugador(JugadoresModel Jugador)
+        {
+            return View("EliminarJugador");
+        }
+
+
+
         // GET: Agregar Jugadores
         public ActionResult AgregarJugadoresCS()
         {
@@ -61,9 +69,10 @@ namespace EstDatos_Lab01.Controllers
             jugadores.Salario = int.Parse(collection["Salario"]);
             jugadores.Posicion = collection["Posicion"];
             jugadores.Club = collection["Club"];
+            jugadores.id = ListaJugadores.Count + 1;
 
-            ListaGenJugadores.Add(jugadores);
-            ViewBag.Jugadores = ListaGenJugadores;
+            ListaJugadores.Add(jugadores);
+            ViewBag.Jugadores = ListaJugadores;
             return View("MostrarJugadores");
         }
         // GET: Jugadores/Details/5
@@ -83,6 +92,7 @@ namespace EstDatos_Lab01.Controllers
         // GET: Jugadores/Edit/5
         public ActionResult Edit(int id)
         {
+
             return View();
         }
 
@@ -106,7 +116,9 @@ namespace EstDatos_Lab01.Controllers
         // GET: Jugadores/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            JugadoresModel Jugador = new JugadoresModel();
+            Jugador = ListaJugadores.Where(x => x.id == id).FirstOrDefault();
+            return View("EliminarJugadores", Jugador);
         }
 
         // POST: Jugadores/Delete/5
@@ -117,8 +129,12 @@ namespace EstDatos_Lab01.Controllers
             try
             {
                 // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
+                ListaJugadores.RemoveAll(x => x.id == id);
+                if (true)
+                {
+                    return RedirectToAction("MostrarJugadores");
+                }
+                
             }
             catch
             {
