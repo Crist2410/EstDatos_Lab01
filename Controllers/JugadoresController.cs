@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EstDatos_Lab01.Models;
 using Libreria_Generics.Estruturas;
+using System.Web;
+using System.IO;
+using System.Diagnostics;
+using System.Linq;
 
 namespace EstDatos_Lab01.Controllers
 {
@@ -14,85 +16,146 @@ namespace EstDatos_Lab01.Controllers
     public class JugadoresController : Controller
     {
        public static ListaG<JugadoresModel> ListaGenJugadores = new ListaG<JugadoresModel>();
-       public static List<JugadoresModel> ListaJugadores = new List<JugadoresModel>();
+        public static List<JugadoresModel> ListaJugadores = new List<JugadoresModel>();
+          
+        //Si MetodoSeleccionado = True -> Estan usando listas de C#
+        //Si MetodoSeleccionado = False -> Estan usando listas genericas 
+        public static bool MetodoSeleccionado;
+        public static int IdJugadores = 1;
+        
 
-        public ActionResult MostrarListaJugadores() 
+        public ActionResult ListaGenerica()
         {
-            ViewBag.Jugadores = ListaJugadores;
-            return View("MostrarJugadores");
+            MetodoSeleccionado = false ;
+            return View("ImportacionJugadoresCS");
         }
-        public ActionResult MostrarTabla(IFormCollection collection)
+
+        public ActionResult ListadeCSharp()
+        {
+            MetodoSeleccionado = true;
+            return View("ImportacionJugadoresCS");
+        }
+        public ActionResult AgregarJugadoresCS()
+        {
+            
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CrearJugador(IFormCollection collection)
         {
             JugadoresModel NuevoJugador = new JugadoresModel();
-
             NuevoJugador.Nombre = collection["Nombre"];
             NuevoJugador.Apellido = collection["Apellido"];
             NuevoJugador.Salario = int.Parse(collection["Salario"]);
             NuevoJugador.Club = collection["Club"];
             NuevoJugador.Posicion = collection["Posicion"];
-
-            ListaJugadores.Add(NuevoJugador);
-            ViewBag.Jugadores = ListaJugadores;
+            
+            //Utilizando Listas de C# 
+            if (MetodoSeleccionado)
+            {
+                NuevoJugador.id = ListaJugadores.Count + 1;
+                ListaJugadores.Add(NuevoJugador);
+                ViewBag.Jugadores = ListaJugadores;
+            }
+            //Utilizando Listas Genericas
+            else
+            {
+                NuevoJugador.Id = IdJugadores;
+                IdJugadores++;
+                ListaGenJugadores.Add(NuevoJugador);
+                ViewBag.Jugadores = ListaGenJugadores;
+            }
             return View("MostrarJugadores");
         }
 
-        public ActionResult BorrarJugador(JugadoresModel Jugador)
+        //Mostrar Lista por medio de boton
+        public ActionResult MostrarJugadores() 
         {
-            return View("EliminarJugador");
-        }
-
-
-
-        // GET: Agregar Jugadores
-        public ActionResult AgregarJugadoresCS()
-        {
+            if (MetodoSeleccionado)
+            {
+                ViewBag.Jugadores = ListaJugadores;
+            }
+            else
+            {
+                ViewBag.Jugadores = ListaGenJugadores;
+            }
             return View();
         }
-        // Iportacion de Jugadores
+        
+        //Vista de Importacion CSV
+       [HttpPost]
+        public IActionResult ImportarCSV(IFormFile ArchivoCargado)
+        {
+            //try
+            //{
+                using (var stream = new StreamReader(ArchivoCargado.OpenReadStream()))
+                {
+                    string Texto = stream.ReadToEnd().Remove(0,71);
+
+
+                    foreach (string Fila in Texto.Split("\n"))
+                    {
+                        JugadoresModel Jugador = new JugadoresModel();
+                        if (!string.IsNullOrEmpty(Fila))
+                        {
+                            
+                            Jugador.Nombre = Fila.Split(",")[2];
+                            Jugador.Apellido = Fila.Split(",")[1];
+                        try
+                        {
+                            Jugador.Salario = Convert.ToDouble(Fila.Split(",")[4]);
+                        }
+                        catch (Exception)
+                        {
+                            Jugador.Salario = 00.00;
+                        }
+                            
+                            Jugador.Club = Fila.Split(",")[0];
+                            Jugador.Posicion = Fila.Split(",")[3];
+                            Jugador.Id = IdJugadores;
+                            IdJugadores++;
+                            if (MetodoSeleccionado)
+                            {
+                                ListaJugadores.Add(Jugador);
+                                ViewBag.Jugadores = ListaJugadores;
+                            }
+                            //Utilizando Listas Genericas
+                            else
+                            {
+                                ListaGenJugadores.Add(Jugador);
+                                ViewBag.Jugadores = ListaGenJugadores;
+                            }
+                        }
+
+                    }
+                }
+                return View("MostrarJugadores");
+            //}
+            //catch (Exception)
+            //{
+
+            //    return View("ImportacionJugadoresCS");
+            //}
+
+        } 
+       
+            
+        // Importacion de Jugadores
         public ActionResult ImportacionJugadoresCS()
         {
-            return View();
+            return View("ImportacionCSV");
         }
         // GET: Jugadores
         public ActionResult Index()
         {
             return View();
         }
-        //Agregar jugadoes 
-        [HttpPost]
-        public IActionResult CreateJugador(IFormCollection collection)
-        {
-            JugadoresModel jugadores = new JugadoresModel();
-
-            jugadores.Nombre = collection["Nombre"];
-            jugadores.Apellido = collection["Apellido"];
-            jugadores.Salario = int.Parse(collection["Salario"]);
-            jugadores.Posicion = collection["Posicion"];
-            jugadores.Club = collection["Club"];
-            jugadores.id = ListaJugadores.Count + 1;
-
-            ListaJugadores.Add(jugadores);
-            ViewBag.Jugadores = ListaJugadores;
-            return View("MostrarJugadores");
-        }
-        // GET: Jugadores/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Jugadores/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
+        
        
-
         // GET: Jugadores/Edit/5
         public ActionResult Edit(int id)
         {
-
             return View();
         }
 
@@ -117,29 +180,50 @@ namespace EstDatos_Lab01.Controllers
         public ActionResult Delete(int id)
         {
             JugadoresModel Jugador = new JugadoresModel();
-            Jugador = ListaJugadores.Where(x => x.id == id).FirstOrDefault();
-            return View("EliminarJugadores", Jugador);
+            Jugador.Id = id;
+            if (MetodoSeleccionado)
+            {
+                Jugador = ListaJugadores.Where(x => x.id == id).FirstOrDefault();
+            }
+            else
+            {
+                 Jugador = ListaGenJugadores.FindID(Jugador.BuscarId, Jugador);
+            }
+            return View("EliminarJugadores",Jugador);
         }
 
         // POST: Jugadores/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult ConfirmarBorrar(int id, IFormCollection collection)
         {
-            try
+
+            //Utilizando Listas de C# 
+            if (MetodoSeleccionado)
             {
-                // TODO: Add delete logic here
                 ListaJugadores.RemoveAll(x => x.id == id);
-                if (true)
+                
+                ViewBag.Jugadores = ListaJugadores;
+                return View("MostrarJugadores");
+            }
+            //Utilizando Listas Genericas
+            else
+            {
+                try
                 {
+                    JugadoresModel Jugador = new JugadoresModel();
+
+                        Jugador.Id = Convert.ToInt32(collection["Id"]);
+                        ListaGenJugadores.Delete(Jugador.BuscarId, Jugador);
+
+                    ViewBag.Jugadores = ListaGenJugadores;
                     return View("MostrarJugadores");
                 }
-                
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            
         }
     }
 }
