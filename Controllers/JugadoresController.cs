@@ -7,7 +7,7 @@ using Libreria_Generics.Estruturas;
 using System.Web;
 using System.IO;
 using System.Diagnostics;
-
+using System.Linq;
 
 namespace EstDatos_Lab01.Controllers
 {
@@ -35,6 +35,12 @@ namespace EstDatos_Lab01.Controllers
             MetodoSeleccionado = true;
             return View("ImportacionJugadoresCS");
         }
+        public ActionResult AgregarJugadoresCS()
+        {
+            
+            return View();
+        }
+
         [HttpPost]
         public ActionResult CrearJugador(IFormCollection collection)
         {
@@ -44,22 +50,25 @@ namespace EstDatos_Lab01.Controllers
             NuevoJugador.Salario = int.Parse(collection["Salario"]);
             NuevoJugador.Club = collection["Club"];
             NuevoJugador.Posicion = collection["Posicion"];
-            NuevoJugador.Id = IdJugadores;
-            IdJugadores++;
+            
             //Utilizando Listas de C# 
             if (MetodoSeleccionado)
             {
+                NuevoJugador.id = ListaJugadores.Count + 1;
                 ListaJugadores.Add(NuevoJugador);
                 ViewBag.Jugadores = ListaJugadores;
             }
             //Utilizando Listas Genericas
             else
             {
+                NuevoJugador.Id = IdJugadores;
+                IdJugadores++;
                 ListaGenJugadores.Add(NuevoJugador);
                 ViewBag.Jugadores = ListaGenJugadores;
             }
             return View("MostrarJugadores");
         }
+
         //Mostrar Lista por medio de boton
         public ActionResult MostrarJugadores() 
         {
@@ -131,11 +140,7 @@ namespace EstDatos_Lab01.Controllers
 
         } 
        
-            // GET: Agregar Jugadores
-            public ActionResult AgregarJugadoresCS()
-        {
-            return View();
-        }
+            
         // Importacion de Jugadores
         public ActionResult ImportacionJugadoresCS()
         {
@@ -146,24 +151,12 @@ namespace EstDatos_Lab01.Controllers
         {
             return View();
         }
-        // GET: Jugadores/Details/5
-
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Jugadores/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
+        
        
-
         // GET: Jugadores/Edit/5
         public ActionResult Edit(int id)
         {
+
             return View();
         }
 
@@ -191,7 +184,7 @@ namespace EstDatos_Lab01.Controllers
             Jugador.Id = id;
             if (MetodoSeleccionado)
             {
-                
+                Jugador = ListaJugadores.Where(x => x.id == id).FirstOrDefault();
             }
             else
             {
@@ -204,26 +197,40 @@ namespace EstDatos_Lab01.Controllers
         [HttpPost]
         public ActionResult ConfirmarBorrar(int id, IFormCollection collection)
         {
-            try
-            {
-                JugadoresModel Jugador = new JugadoresModel();
-                
-                if (MetodoSeleccionado)
-                {
 
-                }
-                else
-                {
-                    Jugador.Id = Convert.ToInt32(collection["Id"]);
-                    ListaGenJugadores.Delete(Jugador.BuscarId, Jugador);
-                }
-                ViewBag.Jugadores = ListaGenJugadores;
-                return View("MostrarJugadores");
-            }
-            catch
+            //Utilizando Listas de C# 
+            if (MetodoSeleccionado)
             {
-                return View();
+                ListaJugadores.RemoveAll(x => x.id == id);
+
+                ViewBag.Jugadores = ListaJugadores;
+                return RedirectToAction("MostrarJugadores");
             }
+            //Utilizando Listas Genericas
+            else
+            {
+                try
+                {
+                    JugadoresModel Jugador = new JugadoresModel();
+
+                    if (MetodoSeleccionado)
+                    {
+
+                    }
+                    else
+                    {
+                        Jugador.Id = Convert.ToInt32(collection["Id"]);
+                        ListaGenJugadores.Delete(Jugador.BuscarId, Jugador);
+                    }
+                    ViewBag.Jugadores = ListaGenJugadores;
+                    return View("MostrarJugadores");
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            
         }
     }
 }
