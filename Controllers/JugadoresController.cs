@@ -208,7 +208,8 @@ namespace EstDatos_Lab01.Controllers
             EditarJugador.Id = id;
             if (MetodoSeleccionado)
             {
-
+                ListaJugadores.IndexOf(ListaJugadores.Where(x => x.Id == id).FirstOrDefault());
+                ViewBag.Jugadores = ListaJugadores;
             }
             else
             {
