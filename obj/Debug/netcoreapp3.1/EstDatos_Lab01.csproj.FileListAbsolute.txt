@@ -122,3 +122,6 @@ C:\Users\Crist\Desktop\EstDatos_Lab01\obj\Debug\netcoreapp3.1\EstDatos_Lab01.Vie
 C:\Users\Crist\Desktop\EstDatos_Lab01\obj\Debug\netcoreapp3.1\EstDatos_Lab01.csproj.CopyComplete
 C:\Users\Crist\Desktop\EstDatos_Lab01\obj\Debug\netcoreapp3.1\EstDatos_Lab01.dll
 C:\Users\Crist\Desktop\EstDatos_Lab01\obj\Debug\netcoreapp3.1\EstDatos_Lab01.pdb
+C:\Users\Crist\Desktop\EstDatos_Lab01\obj\Debug\netcoreapp3.1\EstDatos_Lab01.csprojAssemblyReference.cache
+C:\Users\Crist\Desktop\EstDatos_Lab01\obj\Debug\netcoreapp3.1\Razor\Views\Jugadores\EditarJugador.cshtml.g.cs
+C:\Users\Crist\Desktop\EstDatos_Lab01\obj\Debug\netcoreapp3.1\Razor\Views\Jugadores\EliminarTXT.cshtml.g.cs

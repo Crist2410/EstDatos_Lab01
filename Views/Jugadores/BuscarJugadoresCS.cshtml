@@ -6,59 +6,69 @@
 
 <h1>BuscarJugadoresCS</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-@*<div class="form-group">
-    <label asp-for="" class="control-label"></label>
-    <input asp-for="" class="form-control" />
-    <span asp-validation-for="" class="text-danger"></span>
-</div>*@
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Club)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Posicion)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Salario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Club)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Posicion)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<nav class="navbar navbar-dark bg-dark">
+
+    <form class="form-inline my-2 my-lg-0" asp-controller="Jugadores" asp-action="BuscarJugador" >
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active">
+                <input type="radio" name="options" id="Nombre" autocomplete="off" checked> Nombre
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="options" id="Posicion" autocomplete="off"> Posicion
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="options" id="Salario" autocomplete="off"> Salario
+            </label>
+        </div>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="position:absolute; left: 300px;">
+        <button class="btn btn-outline-info my-2 my-sm-0" style="position:absolute; left: 550px;" type="submit">Buscar</button>
+    </form>
+</nav>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Salario)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Club)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Posicion)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (JugadoresModel item in ViewBag.Jugadores)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Salario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Club)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Posicion)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
+                        @Html.ActionLink("Borrar", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

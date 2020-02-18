@@ -25,6 +25,33 @@ namespace Libreria_Generics.Estruturas
           return Obtener(delegado, Valor);
         }
 
+        public void Edit(Delegate delegado, T Valor)
+        {
+            Nodo<T> NodoSustituto = new Nodo<T>();
+            NodoSustituto.Valor =  Valor;
+            Nodo<T> NodoPivote = new Nodo<T>();
+            NodoPivote = Inicio;
+            while (NodoPivote != Fin.Siguiente)
+            {
+
+                if (Convert.ToInt32(delegado.DynamicInvoke(NodoPivote.Valor, Valor)) == 0)
+                {
+                    Nodo<T> NodoAnterior = NodoPivote.Anterior;
+                    Nodo<T> NodoSiguiente = NodoPivote.Siguiente;
+                    NodoAnterior.Siguiente = NodoSustituto;
+                    NodoSustituto.Siguiente = NodoSiguiente;
+                    NodoSiguiente.Anterior = NodoSustituto;
+                    NodoSustituto.Anterior = NodoAnterior;
+                    NodoPivote.Valor = NodoSustituto.Valor;
+                    NodoPivote = Fin;
+                }
+                else
+                {
+                    NodoPivote = NodoPivote.Siguiente;
+                }
+            }
+            
+        }
         protected override T Obtener(Delegate delegado, T Valor)
         {
             Nodo<T> NodoPivote = Inicio;
@@ -59,7 +86,7 @@ namespace Libreria_Generics.Estruturas
                     {
                         Nodo<T> NodoAnterior = NodoPivote.Anterior;
                         Nodo<T> NodoSiguiente = NodoPivote.Siguiente;
-                        NodoSiguiente.Anterior = NodoSiguiente;
+                        NodoSiguiente.Anterior = NodoAnterior;
                         NodoAnterior.Siguiente = NodoSiguiente;
                         NodoPivote = Fin;
                     }

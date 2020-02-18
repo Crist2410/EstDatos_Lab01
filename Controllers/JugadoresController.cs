@@ -40,6 +40,30 @@ namespace EstDatos_Lab01.Controllers
             
             return View();
         }
+        public ActionResult BuscarJugadoresCS()
+        {
+            if (MetodoSeleccionado)
+            {
+                ViewBag.Jugadores = ListaJugadores;
+            }
+            else
+            {
+                ViewBag.Jugadores = ListaGenJugadores;
+            }
+            return View();
+        }
+        public ActionResult BuscarJugador( string Buscar, string Texto)
+        {
+            if (MetodoSeleccionado)
+            {
+                ViewBag.Jugadores = ListaJugadores;
+            }
+            else
+            {
+                ViewBag.Jugadores = ListaGenJugadores;
+            }
+            return View("BuscarJugadoresCS");
+        }
 
         [HttpPost]
         public ActionResult CrearJugador(IFormCollection collection)
@@ -47,14 +71,14 @@ namespace EstDatos_Lab01.Controllers
             JugadoresModel NuevoJugador = new JugadoresModel();
             NuevoJugador.Nombre = collection["Nombre"];
             NuevoJugador.Apellido = collection["Apellido"];
-            NuevoJugador.Salario = int.Parse(collection["Salario"]);
+            NuevoJugador.Salario = double.Parse(collection["Salario"]);
             NuevoJugador.Club = collection["Club"];
             NuevoJugador.Posicion = collection["Posicion"];
             
             //Utilizando Listas de C# 
             if (MetodoSeleccionado)
             {
-                NuevoJugador.id = ListaJugadores.Count + 1;
+                NuevoJugador.Id = ListaJugadores.Count + 1;
                 ListaJugadores.Add(NuevoJugador);
                 ViewBag.Jugadores = ListaJugadores;
             }
@@ -87,8 +111,8 @@ namespace EstDatos_Lab01.Controllers
        [HttpPost]
         public IActionResult ImportarCSV(IFormFile ArchivoCargado)
         {
-            //try
-            //{
+            try
+            {
                 using (var stream = new StreamReader(ArchivoCargado.OpenReadStream()))
                 {
                     string Texto = stream.ReadToEnd().Remove(0,71);
@@ -131,12 +155,12 @@ namespace EstDatos_Lab01.Controllers
                     }
                 }
                 return View("MostrarJugadores");
-            //}
-            //catch (Exception)
-            //{
+            }
+            catch (Exception)
+            {
 
-            //    return View("ImportacionJugadoresCS");
-            //}
+                return View("ImportacionJugadoresCS");
+            }
 
         } 
        
@@ -154,10 +178,19 @@ namespace EstDatos_Lab01.Controllers
         
        
         // GET: Jugadores/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Editar(int id)
         {
-
-            return View();
+            JugadoresModel Jugador = new JugadoresModel();
+            Jugador.Id = id;
+            if (MetodoSeleccionado)
+            {
+                Jugador = ListaJugadores.Where(x => x.Id == id).FirstOrDefault();
+            }
+            else
+            {
+                Jugador = ListaGenJugadores.FindID(Jugador.BuscarId, Jugador);
+            }
+            return View("EditarJugador", Jugador);
         }
 
         // POST: Jugadores/Edit/5
@@ -165,17 +198,26 @@ namespace EstDatos_Lab01.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
         {
-            try
+            JugadoresModel EditarJugador = new JugadoresModel();
+            EditarJugador.Nombre = collection["Nombre"];
+            EditarJugador.Apellido = collection["Apellido"];
+            EditarJugador.Salario = double.Parse(collection["Salario"]);
+            EditarJugador.Club = collection["Club"];
+            EditarJugador.Posicion = collection["Posicion"];
+            EditarJugador.Id = id;
+            if (MetodoSeleccionado)
             {
-                // TODO: Add update logic here
 
-                return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                ListaGenJugadores.Edit(EditarJugador.BuscarId, EditarJugador);
+                ViewBag.Jugadores = ListaGenJugadores;
+               
             }
+            return View("MostrarJugadores");
         }
+
 
         // GET: Jugadores/Delete/5
         public ActionResult Delete(int id)
@@ -184,7 +226,7 @@ namespace EstDatos_Lab01.Controllers
             Jugador.Id = id;
             if (MetodoSeleccionado)
             {
-                Jugador = ListaJugadores.Where(x => x.id == id).FirstOrDefault();
+                Jugador = ListaJugadores.Where(x => x.Id == id).FirstOrDefault();
             }
             else
             {
@@ -197,40 +239,21 @@ namespace EstDatos_Lab01.Controllers
         [HttpPost]
         public ActionResult ConfirmarBorrar(int id, IFormCollection collection)
         {
-
+            JugadoresModel Jugador = new JugadoresModel();
+            Jugador.Id = Convert.ToInt32(collection["Id"]);
             //Utilizando Listas de C# 
             if (MetodoSeleccionado)
             {
-                ListaJugadores.RemoveAll(x => x.id == id);
-
+                ListaJugadores.Remove(ListaJugadores.Where(x => x.Id == id).FirstOrDefault());
                 ViewBag.Jugadores = ListaJugadores;
-                return RedirectToAction("MostrarJugadores");
             }
             //Utilizando Listas Genericas
             else
             {
-                try
-                {
-                    JugadoresModel Jugador = new JugadoresModel();
-
-                    if (MetodoSeleccionado)
-                    {
-
-                    }
-                    else
-                    {
-                        Jugador.Id = Convert.ToInt32(collection["Id"]);
-                        ListaGenJugadores.Delete(Jugador.BuscarId, Jugador);
-                    }
-                    ViewBag.Jugadores = ListaGenJugadores;
-                    return View("MostrarJugadores");
-                }
-                catch
-                {
-                    return View();
-                }
+                ListaGenJugadores.Delete(Jugador.BuscarId, Jugador);
+                ViewBag.Jugadores = ListaGenJugadores;
             }
-            
+            return View("MostrarJugadores");
         }
     }
 }
