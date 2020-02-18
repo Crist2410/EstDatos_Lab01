@@ -14,7 +14,16 @@ namespace EstDatos_Lab01.Models
         public string Club { get; set; }
         public string Posicion { get; set; }
 
-        
+        public Comparison<JugadoresModel> BuscaTXT = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
+        {
+            if (Jugador1.Club.CompareTo(Jugador2.Club) == 0)
+                if (Jugador1.Apellido.CompareTo(Jugador2.Apellido) == 0)
+                    return Jugador1.Nombre.CompareTo(Jugador2.Nombre);
+                else
+                    return Jugador1.Apellido.CompareTo(Jugador2.Apellido);
+            else
+                return Jugador1.Club.CompareTo(Jugador2.Club);
+        };
 
         public Comparison<JugadoresModel> BuscarId = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
         {
