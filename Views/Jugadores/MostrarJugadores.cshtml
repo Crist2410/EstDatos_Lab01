@@ -10,7 +10,7 @@
     <a asp-action="AgregarJugadoresCS" class="btn btn-dark btn-lg" style="position: relative;top: 5%; left: 2%" role="button">Agregar Jugadores</a>
 </p>
 <p>
-    <a asp-action="BuscarJugadores" class="btn btn-dark btn-lg" style="position: absolute;top: 100px; left: 70%" role="button">Buscar Jugadores</a>
+    <a asp-action="BuscarJugadoresCS" class="btn btn-dark btn-lg" style="position: absolute;top: 100px; left: 70%" role="button">Buscar Jugadores</a>
 
 </p>
 <table class="table">
@@ -54,8 +54,8 @@
                     @Html.DisplayFor(modelItem => item.Posicion)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.id  })
+                    @Html.ActionLink("Editar", "Editar", new { id=item.Id }) |
+                    @Html.ActionLink("Borrar", "Delete", new { id=item.Id  })
                 </td>
             </tr>
         }

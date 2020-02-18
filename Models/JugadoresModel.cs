@@ -13,7 +13,6 @@ namespace EstDatos_Lab01.Models
         public double Salario { get; set; }
         public string Club { get; set; }
         public string Posicion { get; set; }
-        public int id { get; set; }
 
         
 
