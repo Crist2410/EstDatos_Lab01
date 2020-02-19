@@ -1,0 +1,25 @@
+﻿@model EstDatos_Lab01.Models.JugadoresModel
+@{
+    ViewData["Title"] = "EliminarTXT";
+}
+
+<div class="text-center">
+    <h1>Eliminar TXT</h1>
+    <h2>
+        Liga MLS
+
+    </h2>
+</div>
+<h5>
+
+    Ingrese la direccion del Archivo:
+
+</h5>
+<form method="post" enctype="multipart/form-data" asp-controller="Jugadores" asp-action="BorrarListaTXT">
+
+    <input type="file" class="form-control-file" name="ArchivoTXT" />
+    <br />
+    <input type="submit" value="Agregar" class="form-control-file" />
+
+</form>
+

@@ -1,0 +1,53 @@
+﻿@model EstDatos_Lab01.Models.JugadoresModel
+
+@{
+    ViewData["Title"] = "EliminarJugadores";
+}
+
+<h1>Eliminar Jugador</h1>
+
+<h3>
+
+</h3>
+<div>
+    <h4>Jugador</h4>
+    <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(Jugador => Jugador.Nombre)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(Jugador => Jugador.Nombre)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(Jugador => Jugador.Apellido)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(Jugador => Jugador.Apellido)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(Jugador => Jugador.Salario)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(Jugador => Jugador.Salario)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(Jugador => Jugador.Club)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(Jugador => Jugador.Club)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(Jugador => Jugador.Posicion)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(Jugador => Jugador.Posicion)
+            </dd>
+        </dl>
+        <form asp-action="ConfirmarBorrar">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <input asp-for="Id" class="form-control" hidden />
+            <a asp-action="MostrarJugadores">Back to List</a>
+
+        </form>
+</div>
