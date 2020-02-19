@@ -4,61 +4,65 @@
     ViewData["Title"] = "MostrarUsuarios";
 }
 
-<h1>Mostrar Usuarios</h1>
 
-<p>
-    <a asp-action="AgregarJugadoresCS" class="btn btn-info" style="position: absolute;top: 80px; left: 600px" role="button">Agregar Jugadores</a>
-    <a asp-action="EliminarTXT" class="btn btn-dark" style="position: absolute;top: 80px; left: 800px" role="button">Eliminar TXT</a>
-</p>
-<p>
-    <a asp-action="BuscarJugadoresCS" class="btn btn-dark btn-lg" style="position: absolute;top: 85px; left: 1000px" role="button">Buscar Jugadores</a>
+    <nav class="navbar navbar-dark bg-dark">
+        <a asp-action="AgregarJugadoresCS" class="btn btn-outline-info" role="button">Agregar Jugadores</a>
+        <a asp-action="EliminarTXT" class="btn btn-outline-light" role="button">Eliminar TXT</a>
+        <a asp-action="ImportacionJugadoresCS" class="btn btn-outline-light" role="button">Importar CSV</a>
+        <a asp-action="BuscarJugadoresCS" class="btn btn-outline-info " role="button">Buscar Jugadores</a>
+    </nav>
+        <p>
 
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Club)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Posicion)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (JugadoresModel item in ViewBag.Jugadores)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Apellido)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Salario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Club)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Posicion)
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "Editar", new { id=item.Id }) |
-                    @Html.ActionLink("Borrar", "Delete", new { id=item.Id  })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        </p>
+        <h1>Mostrar Jugadores</h1>
+        <p>
+
+        </p>
+        <table class="table ">
+            <thead class="thead-light">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Apellido)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Salario)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Club)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Posicion)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (JugadoresModel item in ViewBag.Jugadores)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Apellido)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Salario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Club)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Posicion)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
+                            @Html.ActionLink("Borrar", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>

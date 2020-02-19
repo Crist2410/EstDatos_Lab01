@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EstDatos_Lab01.Models;
 using Libreria_Generics.Estruturas;
-using System.Web;
 using System.IO;
 using System.Diagnostics;
 using System.Linq;
@@ -17,16 +16,32 @@ namespace EstDatos_Lab01.Controllers
     {
        public static ListaG<JugadoresModel> ListaGenJugadores = new ListaG<JugadoresModel>();
         public static List<JugadoresModel> ListaJugadores = new List<JugadoresModel>();
-          
+        public static Stopwatch Cronometro = new Stopwatch();
+        public static long TiempoEjecucion;
         //Si MetodoSeleccionado = True -> Estan usando listas de C#
         //Si MetodoSeleccionado = False -> Estan usando listas genericas 
         public static bool MetodoSeleccionado;
         public static int IdJugadores = 1;
-        
-
+        public void EscribirLog (string Texto)
+        {
+            Texto = Texto + ". Tiempo de Ejecucion en Segundos -> " + Cronometro.ElapsedMilliseconds + "\n";
+            string RutaTXT = @"Instrucciones.txt";
+            System.IO.File.AppendAllText(RutaTXT, Texto);
+        }
+        // Importacion de Jugadores
+        public ActionResult ImportacionJugadoresCS()
+        {
+            return View("ImportacionCSV");
+        }
+        // GET: Jugadores
+        public ActionResult Index()
+        {
+            System.IO.File.WriteAllText(@"Instrucciones.txt","      EJECUCIONES PRINCIPALES DEL PROGRAMA CON SU TIEMPO \n");
+            return View();
+        }
         public ActionResult ListaGenerica()
         {
-            MetodoSeleccionado = false ;
+            MetodoSeleccionado = false;
             return View("ImportacionJugadoresCS");
         }
 
@@ -50,6 +65,7 @@ namespace EstDatos_Lab01.Controllers
             {
                 ViewBag.Jugadores = ListaGenJugadores;
             }
+            
             return View();
         }
         public ActionResult EliminarTXT()
@@ -62,10 +78,12 @@ namespace EstDatos_Lab01.Controllers
             {
                 ViewBag.Jugadores = ListaGenJugadores;
             }
+
             return View();
         }
         public ActionResult BuscarJugador( string Buscar, string Texto)
         {
+            Cronometro.Restart();
             JugadoresModel JugadorBuscar = new JugadoresModel();
             if (MetodoSeleccionado)
             {
@@ -78,8 +96,8 @@ namespace EstDatos_Lab01.Controllers
                 if (Buscar == "N")
                 {
                     JugadorBuscar.Nombre = Texto;
+                    JugadorBuscar.Apellido = Texto;
                     ListaBuscar = ListaGenJugadores.FindAll(JugadorBuscar.BuscaNombreApellido, JugadorBuscar, ListaGenJugadores);
-
                 }
                 else if (Buscar == "P")
                 {
@@ -88,50 +106,39 @@ namespace EstDatos_Lab01.Controllers
                 }
                 else if (Buscar == "SMayores")
                 {
-                    try
-                    {
+                    try{
                         JugadorBuscar.Salario = Convert.ToInt32(Texto);
                         ListaBuscar = ListaGenJugadores.FindAll(JugadorBuscar.BuscaSalarioMayor, JugadorBuscar, ListaGenJugadores);
                     }
-                    catch (Exception)
-                    {
-
-                    }
+                    catch (Exception){ }
                 }
                 else if (Buscar == "SMenores")
                 {
-
-                    try
-                    {
+                    try{
                         JugadorBuscar.Salario = Convert.ToInt32(Texto);
                         ListaBuscar = ListaGenJugadores.FindAll(JugadorBuscar.BuscaSalarioMenor, JugadorBuscar, ListaGenJugadores);
                     }
-                    catch (Exception)
-                    {
-
-                    }
+                    catch (Exception) { }
                 }
                 else
                 {
-                    try
-                    {
+                    try{
                         JugadorBuscar.Salario = Convert.ToInt32(Texto);
                         ListaBuscar = ListaGenJugadores.FindAll(JugadorBuscar.BuscaSalarioIgual, JugadorBuscar, ListaGenJugadores);
                     }
-                    catch (Exception)
-                    {
-
-                    }
-
+                    catch (Exception) { }
                 }
                 ViewBag.Jugadores = ListaBuscar;
             }
+            Cronometro.Stop();
+            EscribirLog("Busqueda de Jugadores");
             return View("BuscarJugadoresCS");
         }
 
         [HttpPost]
         public ActionResult CrearJugador(IFormCollection collection)
         {
+            Cronometro.Restart();
             JugadoresModel NuevoJugador = new JugadoresModel();
             NuevoJugador.Nombre = collection["Nombre"];
             NuevoJugador.Apellido = collection["Apellido"];
@@ -154,12 +161,15 @@ namespace EstDatos_Lab01.Controllers
                 ListaGenJugadores.Add(NuevoJugador);
                 ViewBag.Jugadores = ListaGenJugadores;
             }
+            Cronometro.Stop();
+            EscribirLog("Se Creo Un Jugador");
             return View("MostrarJugadores");
         }
 
         //Mostrar Lista por medio de boton
         public ActionResult MostrarJugadores() 
         {
+            Cronometro.Restart();
             if (MetodoSeleccionado)
             {
                 ViewBag.Jugadores = ListaJugadores;
@@ -168,16 +178,20 @@ namespace EstDatos_Lab01.Controllers
             {
                 ViewBag.Jugadores = ListaGenJugadores;
             }
+            Cronometro.Stop();
+            EscribirLog("Mostrar Lista de Jugadores");
             return View();
+            
         }
 
         //Borrar Con TXT Jugadores
         [HttpPost]
         public IActionResult BorrarListaTXT(IFormFile ArchivoTXT)
         {
+            Cronometro.Restart();
           List<JugadoresModel> BorrarJugadores = new List<JugadoresModel>();
-            //try
-            //{
+            if (ArchivoTXT.FileName.Contains(".txt"))
+            {
                 using (var stream = new StreamReader(ArchivoTXT.OpenReadStream()))
                 {
                     string Texto = stream.ReadToEnd();
@@ -199,29 +213,32 @@ namespace EstDatos_Lab01.Controllers
                     }
                     if (MetodoSeleccionado)
                     {
-                    foreach (JugadoresModel Jugador in BorrarJugadores)
-                    {
-                       
-                    } 
-                    ViewBag.Jugadores = ListaJugadores;
+                        foreach (JugadoresModel Jugador in BorrarJugadores)
+                        {
+
+                        }
+                        ViewBag.Jugadores = ListaJugadores;
                     }
                     //Utilizando Listas Genericas
                     else
                     {
-                        foreach  (JugadoresModel Jugador in BorrarJugadores)
+                        foreach (JugadoresModel Jugador in BorrarJugadores)
                         {
                             ListaGenJugadores.Delete(Jugador.BuscaTXT, Jugador);
                         }
                         ViewBag.Jugadores = ListaGenJugadores;
                     }
                 }
+                Cronometro.Stop();
+                EscribirLog("Se Eliminaron Jugadores Desde TXT");
                 return View("MostrarJugadores");
-            //}
-            //catch (Exception)
-            //{
-
-            //    return View("ImportacionJugadoresCS");
-            //}
+            }
+            else
+            {
+                Cronometro.Stop();
+                return View("EliminarTXT");
+            }
+            
         }
 
 
@@ -229,71 +246,68 @@ namespace EstDatos_Lab01.Controllers
         [HttpPost]
         public IActionResult ImportarCSV(IFormFile ArchivoCargado)
         {
-            try
+
+            if (ArchivoCargado.FileName.Contains(".csv"))
             {
-                using (var stream = new StreamReader(ArchivoCargado.OpenReadStream()))
+                Cronometro.Restart();
+                try
                 {
-                    string Texto = stream.ReadToEnd().Remove(0, 71);
-
-
-                    foreach (string Fila in Texto.Split("\n"))
+                    using (var stream = new StreamReader(ArchivoCargado.OpenReadStream()))
                     {
-                        JugadoresModel Jugador = new JugadoresModel();
-                        if (!string.IsNullOrEmpty(Fila))
+                        string Texto = stream.ReadToEnd().Remove(0, 71);
+
+
+                        foreach (string Fila in Texto.Split("\n"))
                         {
+                            JugadoresModel Jugador = new JugadoresModel();
+                            if (!string.IsNullOrEmpty(Fila))
+                            {
 
-                            Jugador.Nombre = Fila.Split(",")[2];
-                            Jugador.Apellido = Fila.Split(",")[1];
-                            try
-                            {
-                                Jugador.Salario = Convert.ToDouble(Fila.Split(",")[4]);
-                            }
-                            catch (Exception)
-                            {
-                                Jugador.Salario = 00.00;
+                                Jugador.Nombre = Fila.Split(",")[2];
+                                Jugador.Apellido = Fila.Split(",")[1];
+                                try
+                                {
+                                    Jugador.Salario = Convert.ToDouble(Fila.Split(",")[4]);
+                                }
+                                catch (Exception)
+                                {
+                                    Jugador.Salario = 00.00;
+                                }
+
+                                Jugador.Club = Fila.Split(",")[0];
+                                Jugador.Posicion = Fila.Split(",")[3];
+                                Jugador.Id = IdJugadores;
+                                IdJugadores++;
+                                if (MetodoSeleccionado)
+                                {
+                                    ListaJugadores.Add(Jugador);
+                                    ViewBag.Jugadores = ListaJugadores;
+                                }
+                                //Utilizando Listas Genericas
+                                else
+                                {
+                                    ListaGenJugadores.Add(Jugador);
+                                    ViewBag.Jugadores = ListaGenJugadores;
+                                }
                             }
 
-                            Jugador.Club = Fila.Split(",")[0];
-                            Jugador.Posicion = Fila.Split(",")[3];
-                            Jugador.Id = IdJugadores;
-                            IdJugadores++;
-                            if (MetodoSeleccionado)
-                            {
-                                ListaJugadores.Add(Jugador);
-                                ViewBag.Jugadores = ListaJugadores;
-                            }
-                            //Utilizando Listas Genericas
-                            else
-                            {
-                                ListaGenJugadores.Add(Jugador);
-                                ViewBag.Jugadores = ListaGenJugadores;
-                            }
                         }
-
                     }
+                    Cronometro.Stop();
+                    EscribirLog("Se Importaron Jugadores Desde CSV");
+                    return View("MostrarJugadores");
                 }
-                return View("MostrarJugadores");
+                catch (Exception)
+                {
+
+                    return View("ImportacionCSV");
+                }
             }
-            catch (Exception)
+            else
             {
-
-                return View("ImportacionJugadoresCS");
+                return View("ImportacionCSV");
             }
-
         } 
-       
-            
-        // Importacion de Jugadores
-        public ActionResult ImportacionJugadoresCS()
-        {
-            return View("ImportacionCSV");
-        }
-        // GET: Jugadores
-        public ActionResult Index()
-        {
-            return View();
-        }
-        
        
         // GET: Jugadores/Edit/5
         public ActionResult Editar(int id)

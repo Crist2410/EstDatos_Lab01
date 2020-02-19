@@ -1,0 +1,4 @@
+      EJECUCIONES PRINCIPALES DEL PROGRAMA CON SU TIEMPO 
+Se Importaron Jugadores Desde CSV. Tiempo de Ejecucion en Segundos -> 46
+Busqueda de Jugadores. Tiempo de Ejecucion en Segundos -> 1
+Se Creo Un Jugador. Tiempo de Ejecucion en Segundos -> 0
