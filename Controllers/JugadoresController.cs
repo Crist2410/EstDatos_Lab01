@@ -66,13 +66,65 @@ namespace EstDatos_Lab01.Controllers
         }
         public ActionResult BuscarJugador( string Buscar, string Texto)
         {
+            JugadoresModel JugadorBuscar = new JugadoresModel();
             if (MetodoSeleccionado)
             {
                 ViewBag.Jugadores = ListaJugadores;
             }
             else
             {
-                ViewBag.Jugadores = ListaGenJugadores;
+
+                ListaG<JugadoresModel> ListaBuscar = new ListaG<JugadoresModel>();
+                if (Buscar == "N")
+                {
+                    JugadorBuscar.Nombre = Texto;
+                    ListaBuscar = ListaGenJugadores.FindAll(JugadorBuscar.BuscaNombreApellido, JugadorBuscar, ListaGenJugadores);
+
+                }
+                else if (Buscar == "P")
+                {
+                    JugadorBuscar.Posicion = Texto;
+                    ListaBuscar = ListaGenJugadores.FindAll(JugadorBuscar.BuscarPosicion, JugadorBuscar, ListaGenJugadores);
+                }
+                else if (Buscar == "SMayores")
+                {
+                    try
+                    {
+                        JugadorBuscar.Salario = Convert.ToInt32(Texto);
+                        ListaBuscar = ListaGenJugadores.FindAll(JugadorBuscar.BuscaSalarioMayor, JugadorBuscar, ListaGenJugadores);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+                else if (Buscar == "SMenores")
+                {
+
+                    try
+                    {
+                        JugadorBuscar.Salario = Convert.ToInt32(Texto);
+                        ListaBuscar = ListaGenJugadores.FindAll(JugadorBuscar.BuscaSalarioMenor, JugadorBuscar, ListaGenJugadores);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        JugadorBuscar.Salario = Convert.ToInt32(Texto);
+                        ListaBuscar = ListaGenJugadores.FindAll(JugadorBuscar.BuscaSalarioIgual, JugadorBuscar, ListaGenJugadores);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                }
+                ViewBag.Jugadores = ListaBuscar;
             }
             return View("BuscarJugadoresCS");
         }
@@ -147,19 +199,17 @@ namespace EstDatos_Lab01.Controllers
                     }
                     if (MetodoSeleccionado)
                     {
-                    //Aqui tenes que trabajar 
-                    //Pone tu logica aqui y solo aqui 
-                    //los jugadores a borrar ya estan cargados en la lista Borrar jugadores
-                    //No podes buscar lo jugadores por Id porque no tiene ID 
-
-                        ViewBag.Jugadores = ListaJugadores;
+                    foreach (JugadoresModel Jugador in BorrarJugadores)
+                    {
+                       
+                    } 
+                    ViewBag.Jugadores = ListaJugadores;
                     }
                     //Utilizando Listas Genericas
                     else
                     {
                         foreach  (JugadoresModel Jugador in BorrarJugadores)
                         {
-
                             ListaGenJugadores.Delete(Jugador.BuscaTXT, Jugador);
                         }
                         ViewBag.Jugadores = ListaGenJugadores;
@@ -253,6 +303,7 @@ namespace EstDatos_Lab01.Controllers
             if (MetodoSeleccionado)
             {
                 Jugador = ListaJugadores.Where(x => x.Id == id).FirstOrDefault();
+                //
             }
             else
             {

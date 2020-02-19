@@ -8,20 +8,26 @@
 
 <nav class="navbar navbar-dark bg-dark">
 
-    <form class="form-inline my-2 my-lg-0" asp-controller="Jugadores" asp-action="BuscarJugador" >
+    <form class="form-inline my-2 my-lg-0" asp-controller="Jugadores" asp-action="BuscarJugador">
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-secondary active">
-                <input type="radio" name="options" id="Nombre" autocomplete="off" checked> Nombre
+                <input type="radio" name="Buscar" id="Buscar" value="N" autocomplete="off" checked> Nombre
             </label>
             <label class="btn btn-secondary">
-                <input type="radio" name="options" id="Posicion" autocomplete="off"> Posicion
+                <input type="radio" name="Buscar" id="Buscar" value="P" autocomplete="off"> Posicion
             </label>
             <label class="btn btn-secondary">
-                <input type="radio" name="options" id="Salario" autocomplete="off"> Salario
+                <input type="radio" name="Buscar" id="Buscar" value="SMayores" autocomplete="off"> Salarios Mayores
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="Buscar" id="Buscar" value="SMenores" autocomplete="off"> Salarios Menores
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="Buscar" id="Buscar" value="SIgual" autocomplete="off"> Salario Igual
             </label>
         </div>
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="position:absolute; left: 300px;">
-        <button class="btn btn-outline-info my-2 my-sm-0" style="position:absolute; left: 550px;" type="submit">Buscar</button>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Texto" style="position:absolute; left: 750px;">
+        <button class="btn btn-outline-info my-2 my-sm-0" style="position:absolute; left: 1000px;" type="submit">Buscar</button>
     </form>
 </nav>
     <table class="table">

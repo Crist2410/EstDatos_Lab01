@@ -52,6 +52,26 @@ namespace Libreria_Generics.Estruturas
             }
             
         }
+
+        public ListaG<T> FindAll(Delegate delegado, T Valor, ListaG<T> ListaOriginal)
+        {
+            ListaG<T> ListasFiltrada = new ListaG<T>();
+            Nodo<T> NodoPivote = ListaOriginal.Inicio;
+            while (NodoPivote != ListaOriginal.Fin.Siguiente)
+            {
+                if (Convert.ToInt32(delegado.DynamicInvoke(NodoPivote.Valor, Valor)) == 0)
+                {
+                    ListasFiltrada.Add(NodoPivote.Valor);
+                    NodoPivote = NodoPivote.Siguiente;
+                }
+                else
+                {
+                    NodoPivote = NodoPivote.Siguiente;
+                }
+            }
+            return ListasFiltrada;
+        }
+
         protected override T Obtener(Delegate delegado, T Valor)
         {
             Nodo<T> NodoPivote = Inicio;
@@ -69,8 +89,7 @@ namespace Libreria_Generics.Estruturas
         {
             Nodo<T> NodoPivote = new Nodo<T>();
             NodoPivote = Inicio.Siguiente;
-            int x = Convert.ToInt32(delegado.DynamicInvoke(Inicio.Valor, Valor));
-            if (x == 0)
+            if (Convert.ToInt32(delegado.DynamicInvoke(Inicio.Valor, Valor)) == 0)
             {
                 Inicio = Inicio.Siguiente;
             }

@@ -24,6 +24,16 @@ namespace EstDatos_Lab01.Models
             else
                 return Jugador1.Club.CompareTo(Jugador2.Club);
         };
+       
+        public Comparison<JugadoresModel> BuscaNombreApellido = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
+        {
+
+            if (Jugador1.Apellido.CompareTo(Jugador2.Apellido) != 0)
+                return Jugador1.Nombre.CompareTo(Jugador2.Nombre);
+            else
+                return Jugador1.Apellido.CompareTo(Jugador2.Apellido);
+
+        };
 
         public Comparison<JugadoresModel> BuscarId = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
         {
@@ -37,17 +47,38 @@ namespace EstDatos_Lab01.Models
         {
             return Jugador1.Apellido.CompareTo(Jugador2.Apellido);
         };
-        public Comparison<JugadoresModel> BuscaSalario = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
-        {
-            return Jugador1.Salario.CompareTo(Jugador2.Salario);
-        };
-        public Comparison<JugadoresModel> BuscaClub = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
-        {
-            return Jugador1.Club.CompareTo(Jugador2.Club);
-        };
-        public Comparison<JugadoresModel> BuscaPosicion = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
+        public Comparison<JugadoresModel> BuscarPosicion = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
         {
             return Jugador1.Posicion.CompareTo(Jugador2.Posicion);
+        };
+        public Comparison<JugadoresModel> BuscaSalarioMayor = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
+        {
+            int ValorComparcion = Jugador1.Salario.CompareTo(Jugador2.Salario);
+            if (ValorComparcion == 1 || ValorComparcion == 0)
+            {
+
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        };
+        public Comparison<JugadoresModel> BuscaSalarioMenor = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
+        {
+           int ValorComparcion = Jugador1.Salario.CompareTo(Jugador2.Salario);
+            if (ValorComparcion == -1 || ValorComparcion == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        };
+        public Comparison<JugadoresModel> BuscaSalarioIgual = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
+        {
+            return Jugador1.Salario.CompareTo(Jugador2.Salario);
         };
 
 
