@@ -35,6 +35,7 @@ namespace EstDatos_Lab01.Models
 
         };
 
+
         public Comparison<JugadoresModel> BuscarId = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
         {
             return Jugador1.Id.CompareTo(Jugador2.Id);

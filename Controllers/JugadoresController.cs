@@ -198,12 +198,16 @@ namespace EstDatos_Lab01.Controllers
                         }
                     }
                     if (MetodoSeleccionado)
-                    {
+                    {    
                     foreach (JugadoresModel Jugador in BorrarJugadores)
                     {
-                       
-                    } 
-                    ViewBag.Jugadores = ListaJugadores;
+
+                        ListaJugadores.Remove(ListaJugadores.Find(x => x.Nombre == Jugador.Nombre & x.Apellido == Jugador.Apellido & x.Club == Jugador.Club));
+
+                    }
+                        
+                        
+                        ViewBag.Jugadores = ListaJugadores;
                     }
                     //Utilizando Listas Genericas
                     else
@@ -298,6 +302,7 @@ namespace EstDatos_Lab01.Controllers
         // GET: Jugadores/Edit/5
         public ActionResult Editar(int id)
         {
+
             JugadoresModel Jugador = new JugadoresModel();
             Jugador.Id = id;
             if (MetodoSeleccionado)
@@ -326,7 +331,12 @@ namespace EstDatos_Lab01.Controllers
             EditarJugador.Id = id;
             if (MetodoSeleccionado)
             {
+                
+                JugadoresModel Jugador = ListaJugadores.Where(x => x.Id == id).FirstOrDefault();
+                int ubicacion = ListaJugadores.IndexOf(Jugador);
+                ListaJugadores[ubicacion] = EditarJugador;
 
+                ViewBag.Jugadores = ListaJugadores;
             }
             else
             {
@@ -343,6 +353,7 @@ namespace EstDatos_Lab01.Controllers
         {
             JugadoresModel Jugador = new JugadoresModel();
             Jugador.Id = id;
+            
             if (MetodoSeleccionado)
             {
                 Jugador = ListaJugadores.Where(x => x.Id == id).FirstOrDefault();
@@ -351,7 +362,7 @@ namespace EstDatos_Lab01.Controllers
             {
                  Jugador = ListaGenJugadores.FindID(Jugador.BuscarId, Jugador);
             }
-            return View("EliminarJugadores",Jugador);
+            return View("EliminarJugadores", Jugador);
         }
 
         // POST: Jugadores/Delete/5
@@ -363,12 +374,14 @@ namespace EstDatos_Lab01.Controllers
             //Utilizando Listas de C# 
             if (MetodoSeleccionado)
             {
+
                 ListaJugadores.Remove(ListaJugadores.Where(x => x.Id == id).FirstOrDefault());
                 ViewBag.Jugadores = ListaJugadores;
             }
             //Utilizando Listas Genericas
             else
             {
+
                 ListaGenJugadores.Delete(Jugador.BuscarId, Jugador);
                 ViewBag.Jugadores = ListaGenJugadores;
             }
