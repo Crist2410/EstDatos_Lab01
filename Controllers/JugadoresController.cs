@@ -69,7 +69,9 @@ namespace EstDatos_Lab01.Controllers
             JugadoresModel JugadorBuscar = new JugadoresModel();
             if (MetodoSeleccionado)
             {
+
                 List<JugadoresModel> ListaEncontrados = new List<JugadoresModel>();
+                
                 if (Buscar == "N")
                 {
                     JugadorBuscar.Nombre = Texto;
@@ -84,7 +86,8 @@ namespace EstDatos_Lab01.Controllers
                 {
                     try
                     {
-
+                        JugadorBuscar.Salario = Convert.ToInt32(Texto);
+                        ListaEncontrados = ListaJugadores.FindAll(x => x.Salario >= JugadorBuscar.Salario);
                     }
                     catch (Exception)
                     {
@@ -96,7 +99,8 @@ namespace EstDatos_Lab01.Controllers
 
                     try
                     {
-
+                        JugadorBuscar.Salario = Convert.ToInt32(Texto);
+                        ListaEncontrados = ListaJugadores.FindAll(x => x.Salario <= JugadorBuscar.Salario);
                     }
                     catch (Exception)
                     {
@@ -114,8 +118,8 @@ namespace EstDatos_Lab01.Controllers
                     {
                        
                     }
-                    ViewBag.Jugadores = ListaEncontrados;
                 }
+                ViewBag.Jugadores = ListaEncontrados;
             }
             else
             {
