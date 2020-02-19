@@ -146,12 +146,14 @@ namespace EstDatos_Lab01.Controllers
                         }
                     }
                     if (MetodoSeleccionado)
+                    {    
+                    foreach (JugadoresModel Jugador in BorrarJugadores)
                     {
-                    //Aqui tenes que trabajar 
-                    //Pone tu logica aqui y solo aqui 
-                    //los jugadores a borrar ya estan cargados en la lista Borrar jugadores
-                    //No podes buscar lo jugadores por Id porque no tiene ID 
+                        ListaJugadores.Remove(ListaJugadores.Find(x => x.Nombre == Jugador.Nombre & x.Apellido == Jugador.Apellido & x.Club == Jugador.Club));
 
+                    }
+                        
+                        
                         ViewBag.Jugadores = ListaJugadores;
                     }
                     //Utilizando Listas Genericas
@@ -159,7 +161,7 @@ namespace EstDatos_Lab01.Controllers
                     {
                         foreach  (JugadoresModel Jugador in BorrarJugadores)
                         {
-
+                            
                             ListaGenJugadores.Delete(Jugador.BuscaTXT, Jugador);
                         }
                         ViewBag.Jugadores = ListaGenJugadores;
@@ -276,7 +278,11 @@ namespace EstDatos_Lab01.Controllers
             EditarJugador.Id = id;
             if (MetodoSeleccionado)
             {
-                ListaJugadores.IndexOf(ListaJugadores.Where(x => x.Id == id).FirstOrDefault());
+                
+                JugadoresModel Jugador = ListaJugadores.Where(x => x.Id == id).FirstOrDefault();
+                int ubicacion = ListaJugadores.IndexOf(Jugador);
+                ListaJugadores[ubicacion] = EditarJugador;
+
                 ViewBag.Jugadores = ListaJugadores;
             }
             else
@@ -303,7 +309,7 @@ namespace EstDatos_Lab01.Controllers
             {
                  Jugador = ListaGenJugadores.FindID(Jugador.BuscarId, Jugador);
             }
-            return View("EliminarJugadores",Jugador);
+            return View("EliminarJugadores", Jugador);
         }
 
         // POST: Jugadores/Delete/5

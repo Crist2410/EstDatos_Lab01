@@ -25,6 +25,9 @@ namespace EstDatos_Lab01.Models
                 return Jugador1.Club.CompareTo(Jugador2.Club);
         };
 
+        
+        
+
         public Comparison<JugadoresModel> BuscarId = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
         {
             return Jugador1.Id.CompareTo(Jugador2.Id);
