@@ -69,7 +69,53 @@ namespace EstDatos_Lab01.Controllers
             JugadoresModel JugadorBuscar = new JugadoresModel();
             if (MetodoSeleccionado)
             {
-                ViewBag.Jugadores = ListaJugadores;
+                List<JugadoresModel> ListaEncontrados = new List<JugadoresModel>();
+                if (Buscar == "N")
+                {
+                    JugadorBuscar.Nombre = Texto;
+                    ListaEncontrados = ListaJugadores.FindAll(x => x.Nombre == JugadorBuscar.Nombre);
+                }
+                else if (Buscar == "P")
+                {
+                    JugadorBuscar.Posicion = Texto;
+                    ListaEncontrados = ListaJugadores.FindAll(x => x.Posicion == JugadorBuscar.Posicion);
+                }
+                else if (Buscar == "SMayores")
+                {
+                    try
+                    {
+
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
+                }
+                else if (Buscar == "SMenores")
+                {
+
+                    try
+                    {
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        JugadorBuscar.Salario = Convert.ToInt32(Texto);
+                        ListaEncontrados = ListaJugadores.FindAll(x => x.Salario == JugadorBuscar.Salario);
+                    }
+                    catch (Exception)
+                    {
+                       
+                    }
+                    ViewBag.Jugadores = ListaEncontrados;
+                }
             }
             else
             {
