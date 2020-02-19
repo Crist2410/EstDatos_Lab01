@@ -35,6 +35,7 @@ namespace EstDatos_Lab01.Models
 
         };
 
+
         public Comparison<JugadoresModel> BuscarId = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
         {
             return Jugador1.Id.CompareTo(Jugador2.Id);
@@ -51,12 +52,15 @@ namespace EstDatos_Lab01.Models
         {
             return Jugador1.Posicion.CompareTo(Jugador2.Posicion);
         };
+        public Comparison<JugadoresModel> BuscarClub = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
+        {
+            return Jugador1.Club.CompareTo(Jugador2.Club);
+        };
         public Comparison<JugadoresModel> BuscaSalarioMayor = delegate (JugadoresModel Jugador1, JugadoresModel Jugador2)
         {
             int ValorComparcion = Jugador1.Salario.CompareTo(Jugador2.Salario);
             if (ValorComparcion == 1 || ValorComparcion == 0)
             {
-
                 return 0;
             }
             else

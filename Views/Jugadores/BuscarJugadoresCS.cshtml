@@ -5,24 +5,28 @@
 }
 
 <h1>Buscar Jugadores</h1>
-<a asp-action="MostrarJugadores" class="btn btn-outline-danger"style="position: absolute; top:70px; left:1200px " role="button">Regresar</a>
+<a asp-action="MostrarJugadores" class="btn btn-outline-danger" style="position:absolute; left: 1180px; top:80px" role="button">Regresar a Lista</a>
+
 <nav class="navbar navbar-dark bg-dark">
 
     <form class="form-inline my-2 my-lg-0" asp-controller="Jugadores" asp-action="BuscarJugador">
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-secondary active">
+            <label class="btn btn-outline-light active">
                 <input type="radio" name="Buscar" id="Buscar" value="N" autocomplete="off" checked> Nombre
             </label>
-            <label class="btn btn-secondary">
+            <label class="btn btn-outline-light">
                 <input type="radio" name="Buscar" id="Buscar" value="P" autocomplete="off"> Posicion
             </label>
-            <label class="btn btn-secondary">
+            <label class="btn btn-outline-light">
+                <input type="radio" name="Buscar" id="Buscar" value="C" autocomplete="off"> Club
+            </label>
+            <label class="btn btn-outline-light">
                 <input type="radio" name="Buscar" id="Buscar" value="SMayores" autocomplete="off"> Salarios Mayores
             </label>
-            <label class="btn btn-secondary">
+            <label class="btn btn-outline-light">
                 <input type="radio" name="Buscar" id="Buscar" value="SMenores" autocomplete="off"> Salarios Menores
             </label>
-            <label class="btn btn-secondary">
+            <label class="btn btn-outline-light">
                 <input type="radio" name="Buscar" id="Buscar" value="SIgual" autocomplete="off"> Salario Igual
             </label>
         </div>
